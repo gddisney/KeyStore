@@ -127,7 +127,7 @@ def test():
     print(x)
     print("Attribute Test:")
     x.hello = "Goodbye"
-    x['hello'] = x.hello
+    x.set('hello', x.hello)
     print(x)
     print("Write Test:")
     x.write("id-test","id.db")
