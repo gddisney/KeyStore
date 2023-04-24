@@ -6,11 +6,13 @@ A thread friendly database written in python
 
 ### Creating Keystore
 ```
+from Keystore import *
 x = KeyStore(hello="world")
 print(x)
 ```
 ### Accessing an attribute
 ```
+from Keystore import *
 x = KeyStore(hello="world")
 print(x.hello)
 ```
