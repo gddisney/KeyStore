@@ -10,22 +10,38 @@ from Keystore import *
 x = KeyStore(hello="world")
 print(x)
 ```
+#### Output
+```
+{'hello': 'world'}
+```
 ### Accessing an attribute
 ```
 from Keystore import *
 x = KeyStore(hello="world")
 print(x.hello)
 ```
+#### Output
+```
+world
+```
 ### Accesing dict
 ```
 x['hello'] = 'bye'
 print(x)
+```
+#### Output
+```
+{'hello': 'bye'}
 ```
 ### Setting Attribute
 ```
 x.hello = "Goodbye"
 x.set('hello', x.hello)
 print(x)
+```
+#### Output
+```
+{'hello': 'Goodbye'}
 ```
 ### Writing to DB
 ```
@@ -42,8 +58,14 @@ y = x.get(f"id-test-{_len}","id.db")
 _json = x.json()
 print(_json)
 ```
+#### Output
+```
+{"hello": "Goodbye"}
+```
 ### Loading JSON as Dict
 ```
 _dict = x.dict(_json)
 print(_dict['hello'])
 ```
+#### Output
+Goodbye
