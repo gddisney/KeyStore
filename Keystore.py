@@ -117,7 +117,7 @@ class KeyStore(object):
         t = Thread(name='write_thread',target=self.write,args=(id,database,)).start()
         return
 
-    def ThreadedGet(self,id,database):
+    def ThreadedRead(self,id,database):
         thread = Thread(name='read_thread',target=self.read,args=(database,))
         thread.start()
         thread.join(timeout=1)
@@ -156,7 +156,7 @@ def test():
     x.hello = "Thread Test"
     x.set('hello', x.hello)
     x.ThreadedWrite(f"id-test-{_len+1}","id.db")
-    print(x.ThreadedGet(f"id-test-{_len+1}","id.db"))
+    print(x.ThreadedRead(f"id-test-{_len+1}","id.db"))
 
 if __name__ == '__main__':
      test()
