@@ -113,12 +113,12 @@ class KeyStore(object):
     def dict(self,blob):
          return json.loads(blob)
 
-    def ThreadedWrite(self,database):
-        t = Thread(name='write_thread',target=self.write,daemon=True,args=(self,database,)).start()
+    def ThreadedWrite(self,id,database):
+        t = Thread(name='write_thread',target=self.write,args=(id,database,)).start()
         return
 
     def ThreadedGet(self,id,database):
-        thread = Thread(name='read_thread',target=self.get,args=(id,database))
+        thread = Thread(name='read_thread',target=self.read,args=(database,))
         thread.start()
         thread.join(timeout=1)
         return KeyStore
@@ -155,9 +155,8 @@ def test():
     print("Threaded Read and Write Test: ")
     x.hello = "Thread Test"
     x.set('hello', x.hello)
-    x.ThreadedWrite(f"id-test-{_len}")
-    print(x.ThreadedGet(f"id-test-{_len}","id.db"))
+    x.ThreadedWrite(f"id-test-{_len+1}","id.db")
+    print(x.ThreadedGet(f"id-test-{_len+1}","id.db"))
 
 if __name__ == '__main__':
      test()
-
