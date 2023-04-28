@@ -71,3 +71,16 @@ print(_dict['hello'])
 ```
 Goodbye
 ```
+### Threaded Read and Write
+
+```
+ x.hello = "Thread Test"
+ x.set('hello', x.hello)
+ x.ThreadedWrite(f"id-test-{_len}")
+ print(x.ThreadedGet(f"id-test-{_len}","id.db"))
+ ```
+ 
+ #### Output
+ ```
+ {'hello': 'Thread Test'}
+ ```
