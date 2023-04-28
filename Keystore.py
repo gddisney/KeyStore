@@ -1,6 +1,7 @@
 import json
-from threading import Lock
+from threading import Lock, Thread
 import ast
+
 
 class KeyStore(object):
     """KeyStore is a thread safe python class that is intended to replace sqlite3 for most use cases."""
@@ -59,10 +60,6 @@ class KeyStore(object):
         return lock.release 
     
 
-    def get(self):
-        return KeyStore
-    
-
     def set(self,key,value):
         KeyStore[key] = value
         return KeyStore
@@ -98,7 +95,8 @@ class KeyStore(object):
         except IndexError:
              return
         self.unlock()
-        return ast.literal_eval(json.loads(json.dumps(result)))
+        KeyStore = ast.literal_eval(json.loads(json.dumps(result)))
+        return KeyStore
     
     
     def len(self,database):
@@ -114,6 +112,18 @@ class KeyStore(object):
 
     def dict(self,blob):
          return json.loads(blob)
+
+    def ThreadedWrite(self,database):
+        t = Thread(name='write_thread',target=self.write,daemon=True,args=(self,database,)).start()
+        return
+
+    def ThreadedGet(self,id,database):
+        thread = Thread(name='read_thread',target=self.get,args=(id,database))
+        thread.start()
+        thread.join(timeout=1)
+        return KeyStore
+
+
     
  
 def test():    
@@ -124,6 +134,7 @@ def test():
     print(x.hello)
     print("Dict Test:")
     x['hello'] = 'bye'
+    x.set('hello', x.hello)
     print(x)
     print("Attribute Test:")
     x.hello = "Goodbye"
@@ -141,10 +152,12 @@ def test():
     print("JSON Load Test:")
     _dict = x.dict(_json)
     print(_dict['hello'])
-    print("Missing key test:")
-    x['missing'] = 'test'
-    print(x)
-
+    print("Threaded Read and Write Test: ")
+    x.hello = "Thread Test"
+    x.set('hello', x.hello)
+    x.ThreadedWrite(f"id-test-{_len}")
+    print(x.ThreadedGet(f"id-test-{_len}","id.db"))
 
 if __name__ == '__main__':
      test()
+
