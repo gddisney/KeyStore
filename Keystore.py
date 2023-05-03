@@ -19,7 +19,7 @@ class KeyStore(object):
 
 
     def __missing__(self):
-         KeyStore[key] = value
+         KeyStore[key] = ""
          return KeyStore
     
 
